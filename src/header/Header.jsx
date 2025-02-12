@@ -56,6 +56,19 @@ const Header = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
   const buttonOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.9]);
 
+  // video 
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true; // Memastikan video di-mute
+      videoRef.current.play().catch((err) => {
+        console.error("Autoplay gagal:", err);
+      });
+    }
+  }, []);
+
+
   return (
     <section ref={ref} className="relative w-full h-[400vh]">
       <div className="sticky top-0 h-screen overflow-hidden bg-black">
@@ -67,6 +80,7 @@ const Header = () => {
           }}
         />
         <motion.video
+          ref={videoRef}
           autoPlay
           loop
           muted
