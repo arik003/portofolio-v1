@@ -59,14 +59,25 @@ const Header = () => {
   // video 
   const videoRef = useRef(null);
 
+
   useEffect(() => {
+  const playVideo = () => {
     if (videoRef.current) {
-      videoRef.current.muted = true; // Memastikan video di-mute
+      videoRef.current.muted = true;
       videoRef.current.play().catch((err) => {
         console.error("Autoplay gagal:", err);
       });
     }
-  }, []);
+  };
+
+  document.addEventListener("visibilitychange", playVideo);
+  window.addEventListener("touchstart", playVideo);
+
+  return () => {
+    document.removeEventListener("visibilitychange", playVideo);
+    window.removeEventListener("touchstart", playVideo);
+  };
+}, []);
 
 
   return (
